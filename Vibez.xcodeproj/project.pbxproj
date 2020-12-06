@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -16,6 +16,13 @@
 		1B2230F2255E11C300AB7B3E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1B2230F0255E11C300AB7B3E /* LaunchScreen.storyboard */; };
 		1B2230FD255E11C400AB7B3E /* VibezTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2230FC255E11C400AB7B3E /* VibezTests.swift */; };
 		1B223108255E11C400AB7B3E /* VibezUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B223107255E11C400AB7B3E /* VibezUITests.swift */; };
+		1B9DDC31257AFD1600D8A948 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B9DDC30257AFD1500D8A948 /* Constants.swift */; };
+		1B9DDC3C257B00EB00D8A948 /* SpotifyK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B9DDC3B257B00EB00D8A948 /* SpotifyK.swift */; };
+		1B9DDC45257B095400D8A948 /* VibezSoundz.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B9DDC44257B095400D8A948 /* VibezSoundz.swift */; };
+		1B9DDC52257B10A100D8A948 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 1B9DDC51257B10A100D8A948 /* Kingfisher */; };
+		1B9DDC57257C6AF600D8A948 /* JSONModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B9DDC56257C6AF500D8A948 /* JSONModel.swift */; };
+		1B9DDC5C257C6C3E00D8A948 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B9DDC5B257C6C3E00D8A948 /* DataModel.swift */; };
+		1B9DDC99257C73F600D8A948 /* VibezPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B9DDC98257C73F600D8A948 /* VibezPlayer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +58,12 @@
 		1B223103255E11C400AB7B3E /* VibezUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VibezUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B223107255E11C400AB7B3E /* VibezUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VibezUITests.swift; sourceTree = "<group>"; };
 		1B223109255E11C400AB7B3E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1B9DDC30257AFD1500D8A948 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		1B9DDC3B257B00EB00D8A948 /* SpotifyK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyK.swift; sourceTree = "<group>"; };
+		1B9DDC44257B095400D8A948 /* VibezSoundz.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VibezSoundz.swift; sourceTree = "<group>"; };
+		1B9DDC56257C6AF500D8A948 /* JSONModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONModel.swift; sourceTree = "<group>"; };
+		1B9DDC5B257C6C3E00D8A948 /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
+		1B9DDC98257C73F600D8A948 /* VibezPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VibezPlayer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B9DDC52257B10A100D8A948 /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -101,8 +115,11 @@
 		1B2230E1255E11BF00AB7B3E /* Vibez */ = {
 			isa = PBXGroup;
 			children = (
+				1B9DDC40257B08DD00D8A948 /* Model */,
+				1B9DDC4C257B0B1800D8A948 /* Network */,
 				1B2230E2255E11BF00AB7B3E /* AppDelegate.swift */,
 				1B2230E4255E11BF00AB7B3E /* SceneDelegate.swift */,
+				1B9DDC4E257B0B3500D8A948 /* Views */,
 				1B2230E6255E11BF00AB7B3E /* ViewController.swift */,
 				1B2230E8255E11C000AB7B3E /* Main.storyboard */,
 				1B2230EE255E11C300AB7B3E /* Assets.xcassets */,
@@ -131,6 +148,33 @@
 			path = VibezUITests;
 			sourceTree = "<group>";
 		};
+		1B9DDC40257B08DD00D8A948 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				1B9DDC30257AFD1500D8A948 /* Constants.swift */,
+				1B9DDC44257B095400D8A948 /* VibezSoundz.swift */,
+				1B9DDC5B257C6C3E00D8A948 /* DataModel.swift */,
+				1B9DDC3B257B00EB00D8A948 /* SpotifyK.swift */,
+				1B9DDC56257C6AF500D8A948 /* JSONModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		1B9DDC4C257B0B1800D8A948 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				1B9DDC98257C73F600D8A948 /* VibezPlayer.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		1B9DDC4E257B0B3500D8A948 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -147,6 +191,9 @@
 			dependencies = (
 			);
 			name = Vibez;
+			packageProductDependencies = (
+				1B9DDC51257B10A100D8A948 /* Kingfisher */,
+			);
 			productName = Vibez;
 			productReference = 1B2230DF255E11BF00AB7B3E /* Vibez.app */;
 			productType = "com.apple.product-type.application";
@@ -218,6 +265,9 @@
 				Base,
 			);
 			mainGroup = 1B2230D6255E11BF00AB7B3E;
+			packageReferences = (
+				1B9DDC50257B10A000D8A948 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+			);
 			productRefGroup = 1B2230E0255E11BF00AB7B3E /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -261,10 +311,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B9DDC31257AFD1600D8A948 /* Constants.swift in Sources */,
 				1B2230E7255E11BF00AB7B3E /* ViewController.swift in Sources */,
+				1B9DDC3C257B00EB00D8A948 /* SpotifyK.swift in Sources */,
 				1B2230E3255E11BF00AB7B3E /* AppDelegate.swift in Sources */,
 				1B2230ED255E11C000AB7B3E /* Vibez.xcdatamodeld in Sources */,
+				1B9DDC57257C6AF600D8A948 /* JSONModel.swift in Sources */,
+				1B9DDC45257B095400D8A948 /* VibezSoundz.swift in Sources */,
+				1B9DDC99257C73F600D8A948 /* VibezPlayer.swift in Sources */,
 				1B2230E5255E11BF00AB7B3E /* SceneDelegate.swift in Sources */,
+				1B9DDC5C257C6C3E00D8A948 /* DataModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -597,6 +653,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1B9DDC50257B10A000D8A948 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.15.8;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1B9DDC51257B10A100D8A948 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1B9DDC50257B10A000D8A948 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		1B2230EB255E11C000AB7B3E /* Vibez.xcdatamodeld */ = {
