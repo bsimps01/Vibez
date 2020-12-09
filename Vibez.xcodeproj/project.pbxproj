@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1B194727258051DF003CE4C0 /* NetworkRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B194726258051DF003CE4C0 /* NetworkRequests.swift */; };
+		1B19473D2580A41A003CE4C0 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B19473C2580A41A003CE4C0 /* HomeViewController.swift */; };
 		1B2230E3255E11BF00AB7B3E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2230E2255E11BF00AB7B3E /* AppDelegate.swift */; };
 		1B2230E5255E11BF00AB7B3E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2230E4255E11BF00AB7B3E /* SceneDelegate.swift */; };
 		1B2230E7255E11BF00AB7B3E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2230E6255E11BF00AB7B3E /* ViewController.swift */; };
@@ -27,7 +28,7 @@
 		1B9DDCAB257C874300D8A948 /* SpotifyCaseTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B9DDCAA257C874300D8A948 /* SpotifyCaseTypes.swift */; };
 		1B9DDCB0257CB44900D8A948 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B9DDCAF257CB44800D8A948 /* LoginViewController.swift */; };
 		1B9DDCB6257CD30000D8A948 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B9DDCB5257CD30000D8A948 /* TabBarController.swift */; };
-		1B9DDCF1257DF0F700D8A948 /* NetworkCalls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B9DDCF0257DF0F700D8A948 /* NetworkCalls.swift */; };
+		1B9DDCF1257DF0F700D8A948 /* Parameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B9DDCF0257DF0F700D8A948 /* Parameters.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 
 /* Begin PBXFileReference section */
 		1B194726258051DF003CE4C0 /* NetworkRequests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequests.swift; sourceTree = "<group>"; };
+		1B19473C2580A41A003CE4C0 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		1B2230DF255E11BF00AB7B3E /* Vibez.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vibez.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B2230E2255E11BF00AB7B3E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1B2230E4255E11BF00AB7B3E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -73,7 +75,7 @@
 		1B9DDCAA257C874300D8A948 /* SpotifyCaseTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyCaseTypes.swift; sourceTree = "<group>"; };
 		1B9DDCAF257CB44800D8A948 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		1B9DDCB5257CD30000D8A948 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
-		1B9DDCF0257DF0F700D8A948 /* NetworkCalls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkCalls.swift; sourceTree = "<group>"; };
+		1B9DDCF0257DF0F700D8A948 /* Parameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parameters.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,12 +127,11 @@
 		1B2230E1255E11BF00AB7B3E /* Vibez */ = {
 			isa = PBXGroup;
 			children = (
-				1B9DDCB4257CD1E600D8A948 /* Controllers */,
 				1B9DDC40257B08DD00D8A948 /* Model */,
+				1B9DDCB4257CD1E600D8A948 /* Controllers */,
 				1B9DDC4C257B0B1800D8A948 /* Network */,
 				1B2230E2255E11BF00AB7B3E /* AppDelegate.swift */,
 				1B2230E4255E11BF00AB7B3E /* SceneDelegate.swift */,
-				1B9DDCAF257CB44800D8A948 /* LoginViewController.swift */,
 				1B9DDC4E257B0B3500D8A948 /* Views */,
 				1B2230E6255E11BF00AB7B3E /* ViewController.swift */,
 				1B2230E8255E11C000AB7B3E /* Main.storyboard */,
@@ -176,7 +177,7 @@
 		1B9DDC4C257B0B1800D8A948 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				1B9DDCF0257DF0F700D8A948 /* NetworkCalls.swift */,
+				1B9DDCF0257DF0F700D8A948 /* Parameters.swift */,
 				1B194726258051DF003CE4C0 /* NetworkRequests.swift */,
 				1B9DDC98257C73F600D8A948 /* VibezPlayer.swift */,
 			);
@@ -193,7 +194,9 @@
 		1B9DDCB4257CD1E600D8A948 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				1B9DDCAF257CB44800D8A948 /* LoginViewController.swift */,
 				1B9DDCB5257CD30000D8A948 /* TabBarController.swift */,
+				1B19473C2580A41A003CE4C0 /* HomeViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -336,7 +339,8 @@
 			files = (
 				1B9DDC31257AFD1600D8A948 /* Constants.swift in Sources */,
 				1B9DDCB6257CD30000D8A948 /* TabBarController.swift in Sources */,
-				1B9DDCF1257DF0F700D8A948 /* NetworkCalls.swift in Sources */,
+				1B9DDCF1257DF0F700D8A948 /* Parameters.swift in Sources */,
+				1B19473D2580A41A003CE4C0 /* HomeViewController.swift in Sources */,
 				1B2230E7255E11BF00AB7B3E /* ViewController.swift in Sources */,
 				1B9DDC3C257B00EB00D8A948 /* SpotifyK.swift in Sources */,
 				1B2230E3255E11BF00AB7B3E /* AppDelegate.swift in Sources */,
