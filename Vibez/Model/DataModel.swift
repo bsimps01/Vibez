@@ -23,6 +23,10 @@ struct UserTopSongs: JSONModel {
     let items: [Album]
 }
 
+struct FavoriteSongs: JSONModel {
+    let items: [Album]
+}
+
 
 ///Artists
 
@@ -84,6 +88,43 @@ struct ArtistSong: JSONModel {
     let name: String
     let previewUrl: URL?
     let album: Album
+}
+
+///SearchResluts
+
+struct SearchArtists: JSONModel {
+    let artists: Artists
+}
+
+struct SearchSongs: JSONModel {
+    let songs: Songs
+}
+
+struct Artists: JSONModel {
+    let items: [ArtistObject]
+}
+
+struct Songs: JSONModel {
+    let items: [ArtistSong]
+}
+
+/// Tokens
+
+struct Tokens: JSONModel {
+    let accessToken: String
+    let expiresIn: Int
+    let scope: String?
+    let refreshToken: String?
+}
+
+struct ExpiredToken: JSONModel {
+    let error: ErrorMessage
+   
+}
+
+struct ErrorMessage: JSONModel {
+    let status: Int?
+    let message: String?
 }
 
 
