@@ -9,7 +9,7 @@ import Foundation
 
 enum Parameters {
     case tokenRefreshCode(refreshToken: String)
-    case durationOfTime(duration: String)
+    case durationOfTime(range: String)
     case tokenCode(accessCode: String)
     
     func constructParameters() -> [String:Any] {
@@ -18,8 +18,8 @@ enum Parameters {
             return ["grant_type": "authorization_code",
                     "redirect_uri": Key.REDIRECT_URI,
                     "code": "\(code)"]
-        case .durationOfTime(let duration):
-            return ["time_duration": duration]
+        case .durationOfTime(let range):
+            return ["time_range": range]
             
         case .tokenRefreshCode(let refreshToken):
             return ["grant_type": "refresh_token",

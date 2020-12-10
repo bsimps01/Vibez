@@ -79,6 +79,8 @@ class LoginViewController: UIViewController, ASWebAuthenticationPresentationCont
                     case .success(let token):
                         UserDefaults.standard.set(token.accessToken, forKey: "token")
                         UserDefaults.standard.set(token.refreshToken, forKey: "refresh_token")
+                        print(token)
+                        self.navigationController?.pushViewController(FavoritesViewController(), animated: true)
                     }
                 }))
             }

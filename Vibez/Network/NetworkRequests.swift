@@ -69,10 +69,9 @@ enum EndingPath {
                 return "playlists/\(id)"
                 
             case .songs(let ids):
-                return "songs/?ids=\(ids.joined(separator: ","))"
+                return "tracks/?ids=\(ids.joined(separator: ","))"
             }
         }
-
 
     }
 
@@ -239,7 +238,7 @@ struct NetworkRequest {
                                     header: Header.GETHeader(accessToken: token).buildHeader(),
                                     baseURL: SpotifyURL.APICallBase.rawValue,
                                     path: EndingPath.userFavoriteArtists(type: .artists).buildPath(),
-                                    params: Parameters.durationOfTime(duration: "long_term").constructParameters()) { (result) in
+                                    params: Parameters.durationOfTime(range: "long_term").constructParameters()) { (result) in
                                         
                                         result.decoding(FavoriteArtists.self, completion: completions)
                                         
@@ -272,7 +271,7 @@ struct NetworkRequest {
         return NetworkRequest.buildRequest(method: .get,
                                     header: Header.GETHeader(accessToken: token).buildHeader(),
                                     baseURL: SpotifyURL.APICallBase.rawValue,
-                                    path: EndingPath.userFavoriteArtists(type: .songs).buildPath(), params: Parameters.durationOfTime(duration: "long_term").constructParameters()) {
+                                    path: EndingPath.userFavoriteArtists(type: .tracks).buildPath(), params: Parameters.durationOfTime(range: "long_term").constructParameters()) {
                                         (result) in
                                         
                                         result.decoding(UserTopSongs.self, completion: completions)

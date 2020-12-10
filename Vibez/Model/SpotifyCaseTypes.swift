@@ -10,16 +10,18 @@ import Foundation
 enum SpotifyCaseTypes: String {
     case artist = "artist"
     case album = "album"
-    case song = "song"
+    case show = "show"
     case playlist = "playlist"
     case track = "track"
+    case episode = "episode"
 }
 
 enum UserFavoriteAristTypes: String {
     case artists = "artists"
-    case songs = "songs"
+    case tracks = "tracks"
 }
 
 enum Country: String {
     case US = "US"
+    case UK = "UK"
 }

@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		1B194727258051DF003CE4C0 /* NetworkRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B194726258051DF003CE4C0 /* NetworkRequests.swift */; };
 		1B19473D2580A41A003CE4C0 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B19473C2580A41A003CE4C0 /* HomeViewController.swift */; };
+		1B1947542580C71C003CE4C0 /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B1947532580C71C003CE4C0 /* FavoritesViewController.swift */; };
+		1B194759258186CF003CE4C0 /* ArtistTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B194758258186CE003CE4C0 /* ArtistTableCell.swift */; };
+		1B19476F2581D789003CE4C0 /* TopArtistSongsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B19476E2581D789003CE4C0 /* TopArtistSongsViewController.swift */; };
 		1B2230E3255E11BF00AB7B3E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2230E2255E11BF00AB7B3E /* AppDelegate.swift */; };
 		1B2230E5255E11BF00AB7B3E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2230E4255E11BF00AB7B3E /* SceneDelegate.swift */; };
 		1B2230E7255E11BF00AB7B3E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2230E6255E11BF00AB7B3E /* ViewController.swift */; };
@@ -51,6 +54,9 @@
 /* Begin PBXFileReference section */
 		1B194726258051DF003CE4C0 /* NetworkRequests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequests.swift; sourceTree = "<group>"; };
 		1B19473C2580A41A003CE4C0 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		1B1947532580C71C003CE4C0 /* FavoritesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
+		1B194758258186CE003CE4C0 /* ArtistTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistTableCell.swift; sourceTree = "<group>"; };
+		1B19476E2581D789003CE4C0 /* TopArtistSongsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopArtistSongsViewController.swift; sourceTree = "<group>"; };
 		1B2230DF255E11BF00AB7B3E /* Vibez.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vibez.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B2230E2255E11BF00AB7B3E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1B2230E4255E11BF00AB7B3E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -132,7 +138,6 @@
 				1B9DDC4C257B0B1800D8A948 /* Network */,
 				1B2230E2255E11BF00AB7B3E /* AppDelegate.swift */,
 				1B2230E4255E11BF00AB7B3E /* SceneDelegate.swift */,
-				1B9DDC4E257B0B3500D8A948 /* Views */,
 				1B2230E6255E11BF00AB7B3E /* ViewController.swift */,
 				1B2230E8255E11C000AB7B3E /* Main.storyboard */,
 				1B2230EE255E11C300AB7B3E /* Assets.xcassets */,
@@ -187,6 +192,7 @@
 		1B9DDC4E257B0B3500D8A948 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				1B194758258186CE003CE4C0 /* ArtistTableCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -197,6 +203,9 @@
 				1B9DDCAF257CB44800D8A948 /* LoginViewController.swift */,
 				1B9DDCB5257CD30000D8A948 /* TabBarController.swift */,
 				1B19473C2580A41A003CE4C0 /* HomeViewController.swift */,
+				1B1947532580C71C003CE4C0 /* FavoritesViewController.swift */,
+				1B19476E2581D789003CE4C0 /* TopArtistSongsViewController.swift */,
+				1B9DDC4E257B0B3500D8A948 /* Views */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -338,13 +347,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				1B9DDC31257AFD1600D8A948 /* Constants.swift in Sources */,
+				1B19476F2581D789003CE4C0 /* TopArtistSongsViewController.swift in Sources */,
 				1B9DDCB6257CD30000D8A948 /* TabBarController.swift in Sources */,
 				1B9DDCF1257DF0F700D8A948 /* Parameters.swift in Sources */,
 				1B19473D2580A41A003CE4C0 /* HomeViewController.swift in Sources */,
 				1B2230E7255E11BF00AB7B3E /* ViewController.swift in Sources */,
+				1B194759258186CF003CE4C0 /* ArtistTableCell.swift in Sources */,
 				1B9DDC3C257B00EB00D8A948 /* SpotifyK.swift in Sources */,
 				1B2230E3255E11BF00AB7B3E /* AppDelegate.swift in Sources */,
 				1B2230ED255E11C000AB7B3E /* Vibez.xcdatamodeld in Sources */,
+				1B1947542580C71C003CE4C0 /* FavoritesViewController.swift in Sources */,
 				1B9DDC57257C6AF600D8A948 /* JSONModel.swift in Sources */,
 				1B9DDC45257B095400D8A948 /* VibezSoundz.swift in Sources */,
 				1B9DDCAB257C874300D8A948 /* SpotifyCaseTypes.swift in Sources */,

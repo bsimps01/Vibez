@@ -64,6 +64,7 @@ struct Album: JSONModel {
     let id: String
     let album: AlbumInfo?
     let name: String
+    let artists: [Artist]
     let images: [ArtistImage]?
     let previewUrl: URL?
     let durationMs: Int?
@@ -77,6 +78,7 @@ struct AlbumInfo: JSONModel {
 struct Playlist: JSONModel {
     let name: String
     let images: [PlaylistImage]
+    let songs: Song
 }
 
 struct PlaylistImage: JSONModel {
@@ -90,7 +92,7 @@ struct ArtistSong: JSONModel {
     let album: Album
 }
 
-///SearchResluts
+///SearchResults
 
 struct SearchArtists: JSONModel {
     let artists: Artists

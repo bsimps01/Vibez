@@ -8,8 +8,8 @@
 import Foundation
 
 struct VibezSoundz {
-    let id: String?
-    let title: String?
+    let id: String
+    let title: String
     let artist: String?
     let previewUrl: URL?
     let images: [ArtistImage]
