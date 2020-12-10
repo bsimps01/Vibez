@@ -133,11 +133,11 @@
 		1B2230E1255E11BF00AB7B3E /* Vibez */ = {
 			isa = PBXGroup;
 			children = (
+				1B2230E4255E11BF00AB7B3E /* SceneDelegate.swift */,
+				1B2230E2255E11BF00AB7B3E /* AppDelegate.swift */,
 				1B9DDC40257B08DD00D8A948 /* Model */,
 				1B9DDCB4257CD1E600D8A948 /* Controllers */,
 				1B9DDC4C257B0B1800D8A948 /* Network */,
-				1B2230E2255E11BF00AB7B3E /* AppDelegate.swift */,
-				1B2230E4255E11BF00AB7B3E /* SceneDelegate.swift */,
 				1B2230E6255E11BF00AB7B3E /* ViewController.swift */,
 				1B2230E8255E11C000AB7B3E /* Main.storyboard */,
 				1B2230EE255E11C300AB7B3E /* Assets.xcassets */,

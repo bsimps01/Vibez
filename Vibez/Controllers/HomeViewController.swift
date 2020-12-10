@@ -16,14 +16,23 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .blue
+        self.view.backgroundColor = .systemBackground
         self.navigationController?.navigationBar.prefersLargeTitles = true
+        self.navigationController?.navigationBar.titleTextAttributes = [
+            NSAttributedString.Key.strokeColor: UIColor.white
+       ]
         self.title = "Top 50 Songs"
-        fetchTop50()
+        //fetchTop50()
+        let logoffButton = UIBarButtonItem(title: "Log Off", style: .plain, target: self, action: #selector(logoffButtonTapped))
+        self.navigationItem.rightBarButtonItem = logoffButton
+    }
+    
+    @objc func logoffButtonTapped() {
+        self.view.window!.rootViewController = LoginViewController()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        //fetchTop50()
+        fetchTop50()
     }
     
     private func configureTop50TableView(){
@@ -32,7 +41,7 @@ class HomeViewController: UIViewController {
         top50TableView.dataSource = self
         top50TableView.delegate = self
         top50TableView.frame = self.view.bounds
-        top50TableView.register(ArtistTableCell.self, forCellReuseIdentifier: String(describing: type(of: ArtistTableCell.self)))
+        top50TableView.register(ArtistTableCell.self, forCellReuseIdentifier: "ArtistTableCell")
         top50TableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         
     }
@@ -45,17 +54,16 @@ class HomeViewController: UIViewController {
             case .failure(let error):
                 print(error)
             case .success(let playlist):
-                for track in playlist.songs.items {
-                    let newTrack = VibezSoundz(artist: track.song.artists.first?.name,
-                                               id: track.song.id,
-                                               title: track.song.name,
-                                               previewURL: track.song.previewUrl,
-                                               images: track.song.album!.images)
+                for track in playlist.tracks.items {
+                    let newTrack = VibezSoundz(artist: track.track.artists.first?.name,
+                                               id: track.track.id,
+                                               title: track.track.name,
+                                               previewURL: track.track.previewUrl,
+                                               images: track.track.album!.images)
                     self.vibezSoundz.append(newTrack)
                 }
                 
                 DispatchQueue.main.async {
-                    self.navigationItem.title = playlist.name
                     self.configureTop50TableView()
                 }
             }
@@ -70,11 +78,11 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 150
+        return 90
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: type(of: ArtistTableCell.self)), for: indexPath) as! ArtistTableCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ArtistTableCell") as! ArtistTableCell
         cell.vibezRecord = vibezSoundz[indexPath.row]
         cell.setSong(song: vibezSoundz[indexPath.row], starButtonHidden: false)
         return cell

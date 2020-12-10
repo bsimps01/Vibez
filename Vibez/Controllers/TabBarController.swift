@@ -20,7 +20,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     func setupViewControllers() {
         let hvc = HomeViewController()
         hvc.title = "Home"
-        hvc.tabBarItem = UITabBarItem(title: hvc.title, image: UIImage(named: "home"), selectedImage: UIImage(named: "home"))
+        hvc.tabBarItem = UITabBarItem(title: hvc.title, image: UIImage(named: "artist"), selectedImage: UIImage(named: "artist"))
         let homeNavigation = UINavigationController(rootViewController: hvc)
         
         let favVc = FavoritesViewController()
@@ -28,7 +28,12 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         favVc.tabBarItem = UITabBarItem(title: favVc.title, image: UIImage(named: "favorite"), selectedImage: UIImage(named: "favorite"))
         let favoriteNavigation = UINavigationController(rootViewController: favVc)
         
-        viewControllers = [homeNavigation, favoriteNavigation]
+        let topSong = TopArtistSongsViewController()
+        topSong.title = "Top Songs"
+        topSong.tabBarItem = UITabBarItem(title: topSong.title, image: UIImage(named: "music"), selectedImage: UIImage(named: "music"))
+        let topSongNavigation = UINavigationController(rootViewController: topSong)
+        
+        viewControllers = [homeNavigation, topSongNavigation, favoriteNavigation]
         
     }
     

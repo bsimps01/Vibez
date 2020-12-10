@@ -15,20 +15,23 @@ class FavoritesViewController: UIViewController {
     
     override func viewDidLoad(){
         super.viewDidLoad()
-        displayNavBar()
+        displayNavigation()
     }
     
-    func displayNavBar(){
-        self.view.backgroundColor = .black
+    func displayNavigation(){
+        self.view.backgroundColor = .systemBackground
         self.navigationController?.navigationBar.prefersLargeTitles = true
+        self.navigationController?.navigationBar.titleTextAttributes = [
+            NSAttributedString.Key.foregroundColor: UIColor.white
+       ]
         self.navigationItem.title = "Favorite Artists"
         
-//        let logoffButton = UIBarButtonItem(title: "Log Off", style: .plain, target: self, action: #selector(logoffButtonTapped))
-//        self.navigationItem.rightBarButtonItem = logoffButton
+        let logoffButton = UIBarButtonItem(title: "Log Off", style: .plain, target: self, action: #selector(logoffButtonTapped))
+        self.navigationItem.rightBarButtonItem = logoffButton
     }
     
     @objc func logoffButtonTapped() {
-        
+        self.view.window!.rootViewController = LoginViewController()
     }
     
     func buildTableView() {
@@ -36,7 +39,7 @@ class FavoritesViewController: UIViewController {
         artistTableView.translatesAutoresizingMaskIntoConstraints = true
         artistTableView.dataSource = self
         artistTableView.delegate = self
-        artistTableView.register(ArtistTableCell.self, forCellReuseIdentifier: String(describing: type(of: ArtistTableCell.self)))
+        artistTableView.register(ArtistTableCell.self, forCellReuseIdentifier: "ArtistTableCell")
         artistTableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         artistTableView.frame = self.view.bounds
         
@@ -49,8 +52,8 @@ extension FavoritesViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: type(of: ArtistTableCell.self))) as! ArtistTableCell
-        //cell.accessoryType = .disclosureIndicator
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ArtistTableCell") as! ArtistTableCell
+        cell.accessoryType = .disclosureIndicator
         
         let artist = artists[indexPath.row]
         cell.setArtist(artist: artist)
@@ -59,7 +62,7 @@ extension FavoritesViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+        return 90
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

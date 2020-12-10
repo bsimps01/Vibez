@@ -60,6 +60,11 @@ class LoginViewController: UIViewController, ASWebAuthenticationPresentationCont
     
     @objc func buttonPressed(){
         verifyUserAuthentication()
+//        self.view.window!.rootViewController = TabBarController()
+    }
+    
+    @objc func TabBar(){
+        self.view.window!.rootViewController = TabBarController()
     }
     
     func verifyUserAuthentication(){
@@ -81,6 +86,7 @@ class LoginViewController: UIViewController, ASWebAuthenticationPresentationCont
                         UserDefaults.standard.set(token.refreshToken, forKey: "refresh_token")
                         print(token)
                         self.navigationController?.pushViewController(FavoritesViewController(), animated: true)
+                        self.view.window!.rootViewController = TabBarController()
                     }
                 }))
             }

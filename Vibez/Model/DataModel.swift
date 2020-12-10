@@ -52,12 +52,12 @@ struct ArtistTopSongs: JSONModel {
     let songs: [ArtistSong]
 }
 
-struct Song: JSONModel {
+struct Track: JSONModel {
     let items: [Item]
 }
 
 struct Item: JSONModel {
-    let song: Album
+    let track: Album
 }
 
 struct Album: JSONModel {
@@ -78,7 +78,7 @@ struct AlbumInfo: JSONModel {
 struct Playlist: JSONModel {
     let name: String
     let images: [PlaylistImage]
-    let songs: Song
+    let tracks: Track
 }
 
 struct PlaylistImage: JSONModel {
