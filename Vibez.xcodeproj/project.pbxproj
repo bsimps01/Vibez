@@ -12,6 +12,7 @@
 		1B1947542580C71C003CE4C0 /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B1947532580C71C003CE4C0 /* FavoritesViewController.swift */; };
 		1B194759258186CF003CE4C0 /* ArtistTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B194758258186CE003CE4C0 /* ArtistTableCell.swift */; };
 		1B19476F2581D789003CE4C0 /* TopArtistSongsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B19476E2581D789003CE4C0 /* TopArtistSongsViewController.swift */; };
+		1B194787258254DA003CE4C0 /* FavoriteArtistsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B194786258254DA003CE4C0 /* FavoriteArtistsViewController.swift */; };
 		1B2230E3255E11BF00AB7B3E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2230E2255E11BF00AB7B3E /* AppDelegate.swift */; };
 		1B2230E5255E11BF00AB7B3E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2230E4255E11BF00AB7B3E /* SceneDelegate.swift */; };
 		1B2230E7255E11BF00AB7B3E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2230E6255E11BF00AB7B3E /* ViewController.swift */; };
@@ -57,6 +58,7 @@
 		1B1947532580C71C003CE4C0 /* FavoritesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
 		1B194758258186CE003CE4C0 /* ArtistTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistTableCell.swift; sourceTree = "<group>"; };
 		1B19476E2581D789003CE4C0 /* TopArtistSongsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopArtistSongsViewController.swift; sourceTree = "<group>"; };
+		1B194786258254DA003CE4C0 /* FavoriteArtistsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteArtistsViewController.swift; sourceTree = "<group>"; };
 		1B2230DF255E11BF00AB7B3E /* Vibez.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vibez.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B2230E2255E11BF00AB7B3E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1B2230E4255E11BF00AB7B3E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -201,10 +203,11 @@
 			isa = PBXGroup;
 			children = (
 				1B9DDCAF257CB44800D8A948 /* LoginViewController.swift */,
-				1B9DDCB5257CD30000D8A948 /* TabBarController.swift */,
 				1B19473C2580A41A003CE4C0 /* HomeViewController.swift */,
-				1B1947532580C71C003CE4C0 /* FavoritesViewController.swift */,
+				1B194786258254DA003CE4C0 /* FavoriteArtistsViewController.swift */,
 				1B19476E2581D789003CE4C0 /* TopArtistSongsViewController.swift */,
+				1B1947532580C71C003CE4C0 /* FavoritesViewController.swift */,
+				1B9DDCB5257CD30000D8A948 /* TabBarController.swift */,
 				1B9DDC4E257B0B3500D8A948 /* Views */,
 			);
 			path = Controllers;
@@ -353,6 +356,7 @@
 				1B19473D2580A41A003CE4C0 /* HomeViewController.swift in Sources */,
 				1B2230E7255E11BF00AB7B3E /* ViewController.swift in Sources */,
 				1B194759258186CF003CE4C0 /* ArtistTableCell.swift in Sources */,
+				1B194787258254DA003CE4C0 /* FavoriteArtistsViewController.swift in Sources */,
 				1B9DDC3C257B00EB00D8A948 /* SpotifyK.swift in Sources */,
 				1B2230E3255E11BF00AB7B3E /* AppDelegate.swift in Sources */,
 				1B2230ED255E11C000AB7B3E /* Vibez.xcdatamodeld in Sources */,

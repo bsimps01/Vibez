@@ -23,13 +23,12 @@ class TopArtistSongsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
-        self.title = "Top Choices"
+        self.title = "Top Songs"
         self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationController?.navigationBar.titleTextAttributes = [
-            NSAttributedString.Key.foregroundColor: UIColor.white
-       ]
+        
         let logoffButton = UIBarButtonItem(title: "Log Off", style: .plain, target: self, action: #selector(logoffButtonTapped))
         self.navigationItem.rightBarButtonItem = logoffButton
+        fetchArtistTopSongs()
     }
     
     @objc func logoffButtonTapped() {
@@ -39,31 +38,36 @@ class TopArtistSongsViewController: UIViewController {
     func fetchArtistTopSongs(){
         let token = (UserDefaults.standard.string(forKey: "token"))
 
-        apiClient.call(request: .getFavoriteUserSongs(token: token!, completions: { (result) in
+        apiClient.call(request: .artistBestSongs(id: artist.id, token: token!, completion:{ (result) in
                 switch result {
-                case .failure(let error):
-                    print(error)
                 case .success(let tracks):
                     
-                    for track in tracks.items {
-                        let newTrack = VibezSoundz(artist: track.artists.first?.name,
+                    for track in tracks.tracks {
+                        let newTrack = VibezSoundz(artist: track.album.artists.first?.name,
                                                    id: track.id,
                                                    title: track.name,
                                                    previewURL: track.previewUrl,
-                                                   images: track.album!.images)
+                                                   images: track.album.images!)
                         self.vibezSoundz.append(newTrack)
                     }
                     
                     DispatchQueue.main.async {
+                        self.title = self.artist.name
                         self.configureSongsTableView()
                     }
+                case .failure(let error):
+                    print(error)
                 }
             }))
         }
+    
     private func configureSongsTableView(){
         self.view.addSubview(artistSongsTableView)
         artistSongsTableView.dataSource = self
         artistSongsTableView.delegate = self
+        artistSongsTableView.register(ArtistTableCell.self, forCellReuseIdentifier: "AristTableCell")
+        artistSongsTableView.frame = self.view.bounds
+        artistSongsTableView.separatorStyle = UITableViewCell.SeparatorStyle.none
 
     }
 }

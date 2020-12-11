@@ -49,7 +49,7 @@ struct ArtistImage: JSONModel {
 ///Songs
 
 struct ArtistTopSongs: JSONModel {
-    let songs: [ArtistSong]
+    let tracks: [ArtistSong]
 }
 
 struct Track: JSONModel {

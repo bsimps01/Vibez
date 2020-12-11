@@ -38,7 +38,7 @@ enum EndingPath {
     case artistTopSongs(artistId: String, country: Country)
     case search(q: String, type: SpotifyCaseTypes)
     case playlist(id: String)
-    case songs(ids: [String])
+    case tracks(ids: [String])
     case token
 
         func buildPath() -> String {
@@ -68,7 +68,7 @@ enum EndingPath {
             case .playlist (let id):
                 return "playlists/\(id)"
                 
-            case .songs(let ids):
+            case .tracks(let ids):
                 return "tracks/?ids=\(ids.joined(separator: ","))"
             }
         }
@@ -238,7 +238,7 @@ struct NetworkRequest {
                                     header: Header.GETHeader(accessToken: token).buildHeader(),
                                     baseURL: SpotifyURL.APICallBase.rawValue,
                                     path: EndingPath.userFavoriteArtists(type: .artists).buildPath(),
-                                    params: Parameters.durationOfTime(range: "long_term").constructParameters()) { (result) in
+                                    params:Parameters.durationOfTime(range:"long_term").constructParameters()) { (result) in
                                         
                                         result.decoding(FavoriteArtists.self, completion: completions)
                                         
@@ -246,7 +246,7 @@ struct NetworkRequest {
         
     }
     
-    static func getFavoriteUserSongs(token: String, completions: @escaping (Result<UserTopSongs, Error>) -> Void) -> NetworkRequest {
+    static func getFavoriteUserSongs(ids: [String], token: String, completions: @escaping (Result<ArtistTopSongs, Error>) -> Void) -> NetworkRequest {
         
         let apiClient = APIClient(configuration: URLSessionConfiguration.default)
         
@@ -262,7 +262,7 @@ struct NetworkRequest {
                         print("no refresh token returned")
                     case .success(let refresh):
                         UserDefaults.standard.set(refresh.accessToken, forKey: "token")
-                        apiClient.call(request: .getFavoriteUserSongs(token: refresh.accessToken, completions: completions))
+                        apiClient.call(request: .getFavoriteUserSongs(ids: ids, token: refresh.accessToken, completions: completions))
                     }
                 })!)
             }
@@ -271,10 +271,10 @@ struct NetworkRequest {
         return NetworkRequest.buildRequest(method: .get,
                                     header: Header.GETHeader(accessToken: token).buildHeader(),
                                     baseURL: SpotifyURL.APICallBase.rawValue,
-                                    path: EndingPath.userFavoriteArtists(type: .tracks).buildPath(), params: Parameters.durationOfTime(range: "long_term").constructParameters()) {
+                                    path: EndingPath.tracks(ids: ids).buildPath(), params: Parameters.durationOfTime(range: "long_term").constructParameters()) {
                                         (result) in
                                         
-                                        result.decoding(UserTopSongs.self, completion: completions)
+                                        result.decoding(ArtistTopSongs.self, completion: completions)
                                         
         }
         
@@ -314,7 +314,7 @@ struct NetworkRequest {
 
     }
     
-    static func artistBestSongs(ids: [String], token: String, completion: @escaping(Result<ArtistTopSongs, Error>) -> Void) -> NetworkRequest {
+    static func artistBestSongs(id: String, token: String, completion: @escaping(Result<ArtistTopSongs, Error>) -> Void) -> NetworkRequest {
         let apiClient = APIClient(configuration: URLSessionConfiguration.default)
         
                 apiClient.call(request: .verifyExpiredToken(token: token, completion: { (expiredToken) in
@@ -329,13 +329,16 @@ struct NetworkRequest {
                                 print("refresh token not found")
                             case .success(let refresh):
                                 UserDefaults.standard.set(refresh.accessToken, forKey: "token")
-                                apiClient.call(request: .artistBestSongs(ids: ids, token: refresh.accessToken, completion: completion))
+                                apiClient.call(request: .artistBestSongs(id: id, token: refresh.accessToken, completion: completion))
                             }
                         })!)
                     }
                 }))
         
-        return NetworkRequest.buildRequest(method: .get, header: Header.GETHeader(accessToken: token).buildHeader(), baseURL: SpotifyURL.APICallBase.rawValue, path: EndingPath.songs(ids: ids).buildPath()) { result in
+        return NetworkRequest.buildRequest(method: .get,
+                                           header: Header.GETHeader(accessToken: token).buildHeader(),
+                                           baseURL: SpotifyURL.APICallBase.rawValue,
+                                           path: EndingPath.artistTopSongs(artistId: id, country: .US).buildPath()) { result in
             result.decoding(ArtistTopSongs.self, completion: completion)
         }
         

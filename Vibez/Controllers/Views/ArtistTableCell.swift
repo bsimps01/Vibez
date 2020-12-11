@@ -69,20 +69,20 @@ class ArtistTableCell: UITableViewCell {
             var favoriteSongsID = [String]()
             favoriteSongsID.append(vibezRecord.id)
             UserDefaults.standard.set(favoriteSongsID, forKey: "favoriteSongs")
-            let star = UIImage(named: "favorite")
+            let star = UIImage(systemName: "star.fill")
             let blueStar = star?.withTintColor(UIColor(.blue), renderingMode: .alwaysOriginal)
             favoriteButton.setImage(blueStar, for: .normal)
             return
         }
         
         if !favoriteSongsID.contains(vibezRecord.id) {
-            let star = UIImage(named: "favorite")
+            let star = UIImage(systemName: "star.fill")
             let blueStar = star?.withTintColor(UIColor(.blue), renderingMode: .alwaysOriginal)
             favoriteButton.setImage(blueStar, for: .normal)
             favoriteSongsID.append(vibezRecord.id)
         } else {
             favoriteSongsID = favoriteSongsID.filter(){$0 != vibezRecord.id}
-            let star = UIImage(named: "favorite")
+            let star = UIImage(systemName: "star")
             let blueStar = star?.withTintColor(UIColor(.blue), renderingMode: .alwaysOriginal)
             favoriteButton.setImage(blueStar, for: .normal)
             
@@ -222,22 +222,22 @@ class ArtistTableCell: UITableViewCell {
         }
         
         var favoriteSongsId = [String]()
-        favoriteSongsId = UserDefaults.standard.stringArray(forKey: "favoriteTracks") ?? [String]()
+        favoriteSongsId = UserDefaults.standard.stringArray(forKey: "favoriteSongs") ?? [String]()
         
         if !starButtonHidden {
             if !favoriteSongsId.isEmpty {
                 if favoriteSongsId.contains(song.id) {
-                    let star = UIImage(named: "favorite")
+                    let star = UIImage(systemName: "star")
                     let starSelected = star?.withTintColor(UIColor(.blue), renderingMode: .alwaysOriginal)
                     favoriteButton.setImage(starSelected, for: .normal)
                 }else {
-                    let star = UIImage(systemName: "favorite")
-                    let starSelected = star?.withTintColor(UIColor(.green), renderingMode: .alwaysOriginal)
+                    let star = UIImage(systemName: "star.fill")
+                    let starSelected = star?.withTintColor(UIColor(.blue), renderingMode: .alwaysOriginal)
                     favoriteButton.setImage(starSelected, for: .normal)
                 }
             } else {
-                let star = UIImage(systemName: "favorite")
-                let starSelected = star?.withTintColor(UIColor(.green), renderingMode: .alwaysOriginal)
+                let star = UIImage(systemName: "star.fill")
+                let starSelected = star?.withTintColor(UIColor(.blue), renderingMode: .alwaysOriginal)
                 favoriteButton.setImage(starSelected, for: .normal)
             }
         }

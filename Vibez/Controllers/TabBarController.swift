@@ -20,20 +20,20 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     func setupViewControllers() {
         let hvc = HomeViewController()
         hvc.title = "Home"
-        hvc.tabBarItem = UITabBarItem(title: hvc.title, image: UIImage(named: "artist"), selectedImage: UIImage(named: "artist"))
+        hvc.tabBarItem = UITabBarItem(title: hvc.title, image: UIImage(named: "earth"), selectedImage: UIImage(named: "earth"))
         let homeNavigation = UINavigationController(rootViewController: hvc)
+        
+        let favArtist = FavoriteArtistsViewController()
+        favArtist.title = "Your Artists"
+        favArtist.tabBarItem = UITabBarItem(title: favArtist.title, image: UIImage(named: "artist"), selectedImage: UIImage(named: "artist"))
+        let favoriteArtistsNavigation = UINavigationController(rootViewController: favArtist)
         
         let favVc = FavoritesViewController()
         favVc.title = "Favorites"
         favVc.tabBarItem = UITabBarItem(title: favVc.title, image: UIImage(named: "favorite"), selectedImage: UIImage(named: "favorite"))
         let favoriteNavigation = UINavigationController(rootViewController: favVc)
         
-        let topSong = TopArtistSongsViewController()
-        topSong.title = "Top Songs"
-        topSong.tabBarItem = UITabBarItem(title: topSong.title, image: UIImage(named: "music"), selectedImage: UIImage(named: "music"))
-        let topSongNavigation = UINavigationController(rootViewController: topSong)
-        
-        viewControllers = [homeNavigation, topSongNavigation, favoriteNavigation]
+        viewControllers = [homeNavigation, favoriteArtistsNavigation, favoriteNavigation]
         
     }
     

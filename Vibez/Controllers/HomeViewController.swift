@@ -18,9 +18,6 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
         self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationController?.navigationBar.titleTextAttributes = [
-            NSAttributedString.Key.strokeColor: UIColor.white
-       ]
         self.title = "Top 50 Songs"
         //fetchTop50()
         let logoffButton = UIBarButtonItem(title: "Log Off", style: .plain, target: self, action: #selector(logoffButtonTapped))

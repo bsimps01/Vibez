@@ -17,8 +17,8 @@ enum SpotifyCaseTypes: String {
 }
 
 enum UserFavoriteAristTypes: String {
-    case artists = "artists"
     case tracks = "tracks"
+    case artists = "artists"
 }
 
 enum Country: String {

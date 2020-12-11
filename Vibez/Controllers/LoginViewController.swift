@@ -63,10 +63,6 @@ class LoginViewController: UIViewController, ASWebAuthenticationPresentationCont
 //        self.view.window!.rootViewController = TabBarController()
     }
     
-    @objc func TabBar(){
-        self.view.window!.rootViewController = TabBarController()
-    }
-    
     func verifyUserAuthentication(){
             let urlRequest = apiClient.getSpotifyAccessCodeURL()
             print(urlRequest)
@@ -85,7 +81,7 @@ class LoginViewController: UIViewController, ASWebAuthenticationPresentationCont
                         UserDefaults.standard.set(token.accessToken, forKey: "token")
                         UserDefaults.standard.set(token.refreshToken, forKey: "refresh_token")
                         print(token)
-                        self.navigationController?.pushViewController(FavoritesViewController(), animated: true)
+//                        self.navigationController?.pushViewController(FavoritesViewController(), animated: true)
                         self.view.window!.rootViewController = TabBarController()
                     }
                 }))
