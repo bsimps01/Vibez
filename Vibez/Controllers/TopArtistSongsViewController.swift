@@ -14,7 +14,7 @@ class TopArtistSongsViewController: UIViewController {
     private var vibezSoundz = [VibezSoundz]()
     private let artistSongsTableView = UITableView()
     
-    var artist: ArtistObject! {
+    var artist: ArtistItem! {
         didSet {
             fetchArtistTopSongs()
         }

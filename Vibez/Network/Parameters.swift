@@ -12,19 +12,18 @@ enum Parameters {
     case durationOfTime(range: String)
     case tokenCode(accessCode: String)
     
-    func constructParameters() -> [String:Any] {
+    func buildParameters() -> [String:Any] {
         switch self {
         case .tokenCode(let code):
             return ["grant_type": "authorization_code",
-                    "redirect_uri": Key.REDIRECT_URI,
-                    "code": "\(code)"]
+                    "code": "\(code)",
+                    "redirect_uri": Key.REDIRECT_URI]
         case .durationOfTime(let range):
             return ["time_range": range]
             
         case .tokenRefreshCode(let refreshToken):
             return ["grant_type": "refresh_token",
-                    "refresh_token": refreshToken
-            ]
+                    "refresh_token": refreshToken]
         }
     }
 }

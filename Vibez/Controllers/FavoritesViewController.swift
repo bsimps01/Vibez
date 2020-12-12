@@ -11,7 +11,7 @@ import UIKit
 class FavoritesViewController: UIViewController {
     
     private let artistTableView = UITableView()
-    private var artists = [ArtistObject]()
+    private var artists = [ArtistItem]()
     private let apiClient = APIClient(configuration: URLSessionConfiguration.default)
     private var vibezSoundz = [VibezSoundz]()
     
@@ -41,11 +41,11 @@ class FavoritesViewController: UIViewController {
     private func buildTableView() {
         self.view.addSubview(artistTableView)
         artistTableView.translatesAutoresizingMaskIntoConstraints = true
+        artistTableView.frame = self.view.bounds
         artistTableView.dataSource = self
         artistTableView.delegate = self
         artistTableView.register(ArtistTableCell.self, forCellReuseIdentifier: "ArtistTableCell")
         artistTableView.separatorStyle = UITableViewCell.SeparatorStyle.none
-        artistTableView.frame = self.view.bounds
         
     }
     
@@ -86,26 +86,28 @@ class FavoritesViewController: UIViewController {
 
 extension FavoritesViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return vibezSoundz.count
+        vibezSoundz.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ArtistTableCell") as! ArtistTableCell
-        cell.accessoryType = .disclosureIndicator
+        //cell.accessoryType = .disclosureIndicator
         
-        let artist = artists[indexPath.row]
-        cell.setArtist(artist: artist)
+//        let artist = artists[indexPath.row]
+//        cell.setArtist(artist: artist)
+        cell.vibezRecord = vibezSoundz[indexPath.row]
+        cell.setSong(song: vibezSoundz[indexPath.row], starButtonHidden: false)
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 90
+        return 70
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
-    }
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//
+//    }
     
     
 }

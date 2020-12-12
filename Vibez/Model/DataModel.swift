@@ -15,15 +15,15 @@ struct UserModel: JSONModel {
     let email: String
 }
 
-struct FavoriteArtists: JSONModel {
-    let items: [ArtistObject]
+struct UserFavoriteArtists: JSONModel {
+    let items: [ArtistItem]
 }
 
 struct UserTopSongs: JSONModel {
     let items: [Album]
 }
 
-struct FavoriteSongs: JSONModel {
+struct UserFavoriteSongs: JSONModel {
     let items: [Album]
 }
 
@@ -35,7 +35,7 @@ struct Artist: JSONModel {
     let type: String
 }
 
-struct ArtistObject: JSONModel {
+struct ArtistItem: JSONModel {
     let id: String
     let name: String
     let images: [ArtistImage]
@@ -50,6 +50,13 @@ struct ArtistImage: JSONModel {
 
 struct ArtistTopSongs: JSONModel {
     let tracks: [ArtistSong]
+}
+
+struct ArtistSong: JSONModel {
+    let id: String
+    let name: String
+    let previewUrl: URL?
+    let album: Album
 }
 
 struct Track: JSONModel {
@@ -85,13 +92,6 @@ struct PlaylistImage: JSONModel {
     let url: URL
 }
 
-struct ArtistSong: JSONModel {
-    let id: String
-    let name: String
-    let previewUrl: URL?
-    let album: Album
-}
-
 ///SearchResults
 
 struct SearchArtists: JSONModel {
@@ -103,7 +103,7 @@ struct SearchSongs: JSONModel {
 }
 
 struct Artists: JSONModel {
-    let items: [ArtistObject]
+    let items: [ArtistItem]
 }
 
 struct Songs: JSONModel {

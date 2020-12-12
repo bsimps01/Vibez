@@ -140,41 +140,11 @@ class ArtistTableCell: UITableViewCell {
     fileprivate func configureCell(starButtonHidden: Bool?, hidePlayButton: Bool?){
         
         self.contentView.addSubview(favoriteButton)
-        favoriteButton.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor).isActive = true
-        favoriteButton.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor).isActive = true
-        favoriteButton.widthAnchor.constraint(equalTo: self.contentView.heightAnchor).isActive = true
-        favoriteButton.heightAnchor.constraint(equalTo: self.contentView.heightAnchor).isActive = true
-        
-        self.contentView.addSubview(artistImage)
-        artistImage.translatesAutoresizingMaskIntoConstraints = false
-        artistImage.heightAnchor.constraint(equalTo: self.contentView.heightAnchor).isActive = true
-        artistImage.widthAnchor.constraint(equalTo: self.contentView.heightAnchor).isActive = true
-        artistImage.contentMode = .scaleAspectFit
-        
-        self.contentView.addSubview(artistLabel)
-        artistLabel.font = UIFont.systemFont(ofSize: 12)
-        artistLabel.textColor = .systemGray
-        artistLabel.translatesAutoresizingMaskIntoConstraints = false
-//        artistLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -30).isActive = true
-        artistLabel.leadingAnchor.constraint(equalTo: artistImage.trailingAnchor, constant: 10).isActive = true
-        artistLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -8).isActive = true
-        
         self.contentView.addSubview(songLabel)
-        songLabel.translatesAutoresizingMaskIntoConstraints = false
-        songLabel.font = UIFont(name: "Arial-Bold", size: 12)
-        songLabel.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor).isActive = true
-        songLabel.leadingAnchor.constraint(equalTo: artistImage.trailingAnchor, constant: 8).isActive = true
-        songLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -40).isActive = true
-        
-        self.contentView.addSubview(playButtonImage)
-        playButtonImage.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor).isActive = true
-        playButtonImage.leadingAnchor.constraint(equalTo: songLabel.trailingAnchor).isActive = true
-        playButtonImage.heightAnchor.constraint(equalTo: self.contentView.heightAnchor, constant: -45).isActive = true
-        playButtonImage.widthAnchor.constraint(equalTo: self.contentView.heightAnchor, constant: -45).isActive = true
-        
+        self.contentView.addSubview(artistLabel)
+        self.contentView.addSubview(artistImage)
         self.contentView.addSubview(playButtonHidden)
-        playButtonHidden.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor).isActive = true
-        playButtonHidden.heightAnchor.constraint(equalTo: self.contentView.heightAnchor).isActive = true
+        self.contentView.addSubview(playButtonImage)
         
         if starButtonHidden! && !hidePlayButton! {
             favoriteButton.isHidden = true
@@ -191,10 +161,41 @@ class ArtistTableCell: UITableViewCell {
             playButtonHidden.leadingAnchor.constraint(equalTo: favoriteButton.trailingAnchor).isActive = true
         }
         
+        favoriteButton.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor).isActive = true
+        favoriteButton.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor).isActive = true
+        favoriteButton.widthAnchor.constraint(equalTo: self.contentView.heightAnchor).isActive = true
+        favoriteButton.heightAnchor.constraint(equalTo: self.contentView.heightAnchor).isActive = true
+        
+        artistImage.translatesAutoresizingMaskIntoConstraints = false
+        artistImage.heightAnchor.constraint(equalTo: self.contentView.heightAnchor).isActive = true
+        artistImage.widthAnchor.constraint(equalTo: self.contentView.heightAnchor).isActive = true
+        artistImage.contentMode = .scaleAspectFit
+        
+        songLabel.translatesAutoresizingMaskIntoConstraints = false
+        songLabel.font = UIFont(name: "Arial-Bold", size: 12)
+        songLabel.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor).isActive = true
+        songLabel.leadingAnchor.constraint(equalTo: artistImage.trailingAnchor, constant: 8).isActive = true
+        songLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -40).isActive = true
+        
+        playButtonHidden.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor).isActive = true
+        playButtonHidden.heightAnchor.constraint(equalTo: self.contentView.heightAnchor).isActive = true
+        
+        artistLabel.font = UIFont.systemFont(ofSize: 12)
+        artistLabel.textColor = .systemGray
+        artistLabel.translatesAutoresizingMaskIntoConstraints = false
+        artistLabel.leadingAnchor.constraint(equalTo: artistImage.trailingAnchor, constant: 10).isActive = true
+        artistLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -8).isActive = true
+
+    
+        playButtonImage.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor).isActive = true
+        playButtonImage.leadingAnchor.constraint(equalTo: songLabel.trailingAnchor).isActive = true
+        playButtonImage.heightAnchor.constraint(equalTo: self.contentView.heightAnchor, constant: -45).isActive = true
+        playButtonImage.widthAnchor.constraint(equalTo: self.contentView.heightAnchor, constant: -45).isActive = true
+
         
     }
     
-    internal func setArtist(artist: ArtistObject) {
+    internal func setArtist(artist: ArtistItem) {
         configureCell(starButtonHidden: true, hidePlayButton: true)
         
         artistImage.kf.setImage(with: artist.images.first?.url, options: [], completionHandler:  { result in
@@ -227,16 +228,16 @@ class ArtistTableCell: UITableViewCell {
         if !starButtonHidden {
             if !favoriteSongsId.isEmpty {
                 if favoriteSongsId.contains(song.id) {
-                    let star = UIImage(systemName: "star")
+                    let star = UIImage(systemName: "star.fill")
                     let starSelected = star?.withTintColor(UIColor(.blue), renderingMode: .alwaysOriginal)
                     favoriteButton.setImage(starSelected, for: .normal)
                 }else {
-                    let star = UIImage(systemName: "star.fill")
+                    let star = UIImage(systemName: "star")
                     let starSelected = star?.withTintColor(UIColor(.blue), renderingMode: .alwaysOriginal)
                     favoriteButton.setImage(starSelected, for: .normal)
                 }
             } else {
-                let star = UIImage(systemName: "star.fill")
+                let star = UIImage(systemName: "star")
                 let starSelected = star?.withTintColor(UIColor(.blue), renderingMode: .alwaysOriginal)
                 favoriteButton.setImage(starSelected, for: .normal)
             }
