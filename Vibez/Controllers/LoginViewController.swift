@@ -60,7 +60,6 @@ class LoginViewController: UIViewController, ASWebAuthenticationPresentationCont
     
     @objc func buttonPressed(){
         verifyUserAuthentication()
-//        self.view.window!.rootViewController = TabBarController()
     }
     
     func verifyUserAuthentication(){
@@ -73,7 +72,7 @@ class LoginViewController: UIViewController, ASWebAuthenticationPresentationCont
                 let queryItems = URLComponents(string: callbackURL.absoluteString)?.queryItems
                 guard let requestAccessCode = queryItems?.first(where: { $0.name == "code" })?.value else { return }
                 print(" Code \(requestAccessCode)")
-                self.apiClient.call(request: .verifyAccessToken(code: requestAccessCode, completion: { (token) in
+                self.apiClient.call(request: .accessCodeToAccessToken(code: requestAccessCode, completion: { (token) in
                     switch token {
                     case .failure(let error):
                         print(error)
@@ -81,7 +80,6 @@ class LoginViewController: UIViewController, ASWebAuthenticationPresentationCont
                         UserDefaults.standard.set(token.accessToken, forKey: "token")
                         UserDefaults.standard.set(token.refreshToken, forKey: "refresh_token")
                         print(token)
-//                        self.navigationController?.pushViewController(FavoritesViewController(), animated: true)
                         self.view.window!.rootViewController = TabBarController()
                     }
                 }))

@@ -16,21 +16,25 @@ class FavoriteArtistsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .systemBackground
+        self.view.backgroundColor = .black
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.title = "Favorite Artists"
-        //fetchTableViewData()
         
-        let logoffButton = UIBarButtonItem(title: "Log Off", style: .plain, target: self, action: #selector(logoffButtonTapped))
+        fetchTableViewData()
+        
+        let logoffButton = UIBarButtonItem(title: "Log off", style: .plain, target: self, action: #selector(logOffButtonTapped))
         self.navigationItem.rightBarButtonItem = logoffButton
         
+        let textAttributes = [NSAttributedString.Key.foregroundColor:UIColor.systemBlue]
+        navigationController?.navigationBar.titleTextAttributes = textAttributes
+        
+        navigationController?.navigationBar.barStyle = .default
+        navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        
     }
+
     
-    override func viewWillAppear(_ animated: Bool) {
-        fetchTableViewData()
-    }
-    
-    @objc func logoffButtonTapped() {
+    @objc func logOffButtonTapped() {
         self.view.window!.rootViewController = LoginViewController()
     }
     
@@ -38,7 +42,7 @@ class FavoriteArtistsViewController: UIViewController {
 
         let token = (UserDefaults.standard.string(forKey: "token"))
         print(token!)
-        apiClient.call(request: .getFavoriteUserArtists(token: token!, completions: { (result) in
+        apiClient.call(request: .getUserTopArtists(token: token!, completions: { (result) in
             switch result {
             case .success(let results):
                 self.artists = results.items
@@ -61,6 +65,7 @@ class FavoriteArtistsViewController: UIViewController {
         favoriteArtistsTableView.dataSource = self
         favoriteArtistsTableView.delegate = self
         favoriteArtistsTableView.separatorStyle = UITableViewCell.SeparatorStyle.none
+        favoriteArtistsTableView.backgroundColor = .black
     }
     
 }
@@ -72,13 +77,13 @@ extension FavoriteArtistsViewController: UITableViewDelegate, UITableViewDataSou
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 70
+        return 100
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ArtistTableCell") as! ArtistTableCell
         cell.accessoryType = .disclosureIndicator
-        
+        cell.backgroundColor = .clear
         let artist = artists[indexPath.row]
         cell.setArtist(artist: artist)
         

@@ -26,12 +26,18 @@ class FavoritesViewController: UIViewController {
     }
     
     func displayNavigation(){
-        self.view.backgroundColor = .systemBackground
+        self.view.backgroundColor = .black
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationItem.title = "Top Selections"
         
         let logoffButton = UIBarButtonItem(title: "Log Off", style: .plain, target: self, action: #selector(logoffButtonTapped))
         self.navigationItem.rightBarButtonItem = logoffButton
+        
+        let textAttributes = [NSAttributedString.Key.foregroundColor:UIColor.systemBlue]
+        navigationController?.navigationBar.titleTextAttributes = textAttributes
+        
+        navigationController?.navigationBar.barStyle = .default
+        navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
     }
     
     @objc func logoffButtonTapped() {
@@ -46,6 +52,7 @@ class FavoritesViewController: UIViewController {
         artistTableView.delegate = self
         artistTableView.register(ArtistTableCell.self, forCellReuseIdentifier: "ArtistTableCell")
         artistTableView.separatorStyle = UITableViewCell.SeparatorStyle.none
+        artistTableView.backgroundColor = .black
         
     }
     
@@ -53,9 +60,9 @@ class FavoritesViewController: UIViewController {
         let token = UserDefaults.standard.string(forKey: "token")
         var tracks: [String]?
         tracks = UserDefaults.standard.stringArray(forKey: "favoriteSongs")
-         
+        
         if tracks != nil && !tracks!.isEmpty {
-            apiClient.call(request: .getFavoriteUserSongs(ids: tracks!, token: token!, completions: { (playlist) in
+            apiClient.call(request: .getUserFavoriteTracks(ids: tracks!, token: token!, completion: { (playlist) in
                     switch playlist {
                     case .failure(let error):
                         print(error)
@@ -63,7 +70,7 @@ class FavoritesViewController: UIViewController {
                         self.vibezSoundz = [VibezSoundz]()
                         
                         for track in playlist.tracks {
-                            let newTrack = VibezSoundz(artist: track.album.artists.first?.name,
+                            let newTrack = VibezSoundz(artistName: track.album.artists.first?.name,
                                                        id: track.id,
                                                        title: track.name,
                                                        previewURL: track.previewUrl,
@@ -91,10 +98,7 @@ extension FavoritesViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ArtistTableCell") as! ArtistTableCell
-        //cell.accessoryType = .disclosureIndicator
-        
-//        let artist = artists[indexPath.row]
-//        cell.setArtist(artist: artist)
+        cell.backgroundColor = .clear
         cell.vibezRecord = vibezSoundz[indexPath.row]
         cell.setSong(song: vibezSoundz[indexPath.row], starButtonHidden: false)
         
@@ -102,12 +106,7 @@ extension FavoritesViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 70
+        return 100
     }
-    
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//
-//    }
-    
     
 }

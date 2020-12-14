@@ -148,7 +148,7 @@ class ArtistTableCell: UITableViewCell {
         
         if starButtonHidden! && !hidePlayButton! {
             favoriteButton.isHidden = true
-            artistImage.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 10).isActive = true
+            artistImage.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 15).isActive = true
             playButtonHidden.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor).isActive = true
         } else if starButtonHidden! && hidePlayButton!{
             artistLabel.isHidden = true
@@ -162,7 +162,7 @@ class ArtistTableCell: UITableViewCell {
         }
         
         favoriteButton.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor).isActive = true
-        favoriteButton.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor).isActive = true
+        favoriteButton.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: -15).isActive = true
         favoriteButton.widthAnchor.constraint(equalTo: self.contentView.heightAnchor).isActive = true
         favoriteButton.heightAnchor.constraint(equalTo: self.contentView.heightAnchor).isActive = true
         
@@ -172,10 +172,11 @@ class ArtistTableCell: UITableViewCell {
         artistImage.contentMode = .scaleAspectFit
         
         songLabel.translatesAutoresizingMaskIntoConstraints = false
-        songLabel.font = UIFont(name: "Arial-Bold", size: 12)
+        songLabel.font = UIFont(name: "Arial Bold", size: 20)
         songLabel.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor).isActive = true
         songLabel.leadingAnchor.constraint(equalTo: artistImage.trailingAnchor, constant: 8).isActive = true
         songLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -40).isActive = true
+        songLabel.textColor = .white
         
         playButtonHidden.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor).isActive = true
         playButtonHidden.heightAnchor.constraint(equalTo: self.contentView.heightAnchor).isActive = true
@@ -185,12 +186,13 @@ class ArtistTableCell: UITableViewCell {
         artistLabel.translatesAutoresizingMaskIntoConstraints = false
         artistLabel.leadingAnchor.constraint(equalTo: artistImage.trailingAnchor, constant: 10).isActive = true
         artistLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -8).isActive = true
+        artistLabel.textColor = .white
 
     
         playButtonImage.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor).isActive = true
         playButtonImage.leadingAnchor.constraint(equalTo: songLabel.trailingAnchor).isActive = true
-        playButtonImage.heightAnchor.constraint(equalTo: self.contentView.heightAnchor, constant: -45).isActive = true
-        playButtonImage.widthAnchor.constraint(equalTo: self.contentView.heightAnchor, constant: -45).isActive = true
+        playButtonImage.heightAnchor.constraint(equalTo: self.contentView.heightAnchor, constant: -75).isActive = true
+        playButtonImage.widthAnchor.constraint(equalTo: self.contentView.heightAnchor, constant: -75).isActive = true
 
         
     }
@@ -270,7 +272,7 @@ class ArtistTableCell: UITableViewCell {
                         DispatchQueue.main.async {
                             self.artistImage.image = value.image
                             self.songLabel.text = song.title
-                            self.artistLabel.text = song.artist
+                            self.artistLabel.text = song.artistName
                             
                         }
                     case .failure(let error):

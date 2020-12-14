@@ -22,13 +22,13 @@ class TopArtistSongsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .systemBackground
-        self.title = "Top Songs"
-        self.navigationController?.navigationBar.prefersLargeTitles = true
+
+        self.view.backgroundColor = .black
+        let textAttributes = [NSAttributedString.Key.foregroundColor:UIColor.systemBlue]
+        navigationController?.navigationBar.titleTextAttributes = textAttributes
         
-        let logoffButton = UIBarButtonItem(title: "Log Off", style: .plain, target: self, action: #selector(logoffButtonTapped))
-        self.navigationItem.rightBarButtonItem = logoffButton
-        fetchArtistTopSongs()
+        navigationController?.navigationBar.barStyle = .default
+        navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
     }
     
     @objc func logoffButtonTapped() {
@@ -38,12 +38,12 @@ class TopArtistSongsViewController: UIViewController {
     func fetchArtistTopSongs(){
         let token = (UserDefaults.standard.string(forKey: "token"))
 
-        apiClient.call(request: .artistBestSongs(id: artist.id, token: token!, completion:{ (result) in
+        apiClient.call(request: .getArtistTopTracks(id: artist.id, token: token!, completions:{ (result) in
                 switch result {
                 case .success(let tracks):
                     
                     for track in tracks.tracks {
-                        let newTrack = VibezSoundz(artist: track.album.artists.first?.name,
+                        let newTrack = VibezSoundz(artistName: track.album.artists.first?.name,
                                                    id: track.id,
                                                    title: track.name,
                                                    previewURL: track.previewUrl,
@@ -63,11 +63,13 @@ class TopArtistSongsViewController: UIViewController {
     
     private func configureSongsTableView(){
         self.view.addSubview(artistSongsTableView)
+        artistSongsTableView.translatesAutoresizingMaskIntoConstraints = false
         artistSongsTableView.dataSource = self
         artistSongsTableView.delegate = self
-        artistSongsTableView.register(ArtistTableCell.self, forCellReuseIdentifier: "AristTableCell")
+        artistSongsTableView.register(ArtistTableCell.self, forCellReuseIdentifier: "ArtistTableCell")
         artistSongsTableView.frame = self.view.bounds
         artistSongsTableView.separatorStyle = UITableViewCell.SeparatorStyle.none
+        artistSongsTableView.backgroundColor = .black
 
     }
 }
@@ -78,15 +80,15 @@ extension TopArtistSongsViewController: UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 90
+        return 100
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ArtistTableCell") as! ArtistTableCell
-        
+        cell.backgroundColor = .clear
         let song = vibezSoundz[indexPath.row]
-        cell.setSong(song: song, starButtonHidden: true)
         cell.vibezRecord = song
+        cell.setSong(song: song, starButtonHidden: false)
         
         return cell
     }

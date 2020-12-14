@@ -10,12 +10,12 @@ import Foundation
 struct VibezSoundz {
     let id: String
     let title: String
-    let artist: String?
+    let artistName: String?
     let previewUrl: URL?
     let images: [ArtistImage]
     
-    init(artist: String?, id: String, title: String, previewURL: URL?, images: [ArtistImage]) {
-        self.artist = artist
+    init(artistName: String?, id: String, title: String, previewURL: URL?, images: [ArtistImage]) {
+        self.artistName = artistName
         self.id = id
         self.title = title
         self.images = images

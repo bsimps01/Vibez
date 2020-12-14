@@ -15,6 +15,8 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         super.viewDidLoad()
         setupViewControllers()
         self.delegate = self
+        self.tabBar.isTranslucent = false
+        self.tabBar.barTintColor = .black
     }
     
     func setupViewControllers() {

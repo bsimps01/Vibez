@@ -31,16 +31,16 @@ enum Header {
 }
 
 enum EndingPath {
+    case token
     case userInfo
-    case userFavoriteArtists(type: UserFavoriteAristTypes)
     case artist(id: String)
     case artists(ids: [String])
     case artistTopTracks(artistId: String, country: Country)
     case search(q: String, type: SpotifyCaseTypes)
     case playlist(id: String)
+    case myTop(type: UserFavoriteAristTypes)
     case tracks(ids: [String])
-    case token
-    
+
     func buildPath() -> String {
         switch self {
         case .token:
@@ -48,9 +48,6 @@ enum EndingPath {
             
         case .userInfo:
             return "me"
-            
-        case .userFavoriteArtists(let type):
-            return "user/top/\(type)"
             
         case .artist(let id):
             return "artist/\(id)"
@@ -68,10 +65,14 @@ enum EndingPath {
         case .playlist (let id):
             return "playlists/\(id)"
             
+        case .myTop(let type):
+            return "me/top/\(type)"
+            
         case .tracks(let ids):
             return "tracks/?ids=\(ids.joined(separator: ","))"
         }
     }
+
 }
 
 struct BasicRequestBuilder: RequestBuilder {
@@ -168,258 +169,251 @@ struct NetworkRequest {
     let builder: RequestBuilder
     let completion: (Result<Data, Error>) -> Void
     
-    static func buildRequest(method: HTTPMethod, header: [String:String], baseURL: String, path: String, params: [String:Any]?=nil, completion: @escaping (Result<Data, Error>) -> Void) -> NetworkRequest {
+    private static func buildRequest(method: HTTPMethod, header: [String:String], baseURL: String, path: String, params: [String:Any]?=nil, completion: @escaping (Result<Data, Error>) -> Void) -> NetworkRequest {
         
         let builder = BasicRequestBuilder(method: method, headers: header, baseURL: baseURL, path: path, params: params)
         
         return NetworkRequest(builder: builder, completion: completion)
     }
+}
+
+extension NetworkRequest {
     
-    static func verifyAccessToken(code: String, completion: @escaping (Result<Tokens, Error>) -> Void) -> NetworkRequest {
+    static func accessCodeToAccessToken(code: String, completion: @escaping (Result<Tokens, Error>) -> Void) -> NetworkRequest {
         
         NetworkRequest.buildRequest(method: .post,
-                                    header: Header.POSTHeader.buildHeader(),
-                                    baseURL: SpotifyURL.authBaseURL.rawValue,
-                                    path: EndingPath.token.buildPath(),
-                                    params: Parameters.tokenCode(accessCode: code).buildParameters()) { (result) in
-            
-            result.decoding(Tokens.self, completion: completion)
+                             header: Header.POSTHeader.buildHeader(),
+                             baseURL: SpotifyURL.authBaseURL.rawValue,
+                             path: EndingPath.token.buildPath(),
+                             params: Parameters.tokenCode(accessCode: code).buildParameters()) { (result) in
+                                
+                                result.decoding(Tokens.self, completion: completion)
         }
     }
-    static func refreshAccessToken(completion: @escaping (Result<Tokens, Error>) -> Void) -> NetworkRequest? {
+    
+    static func checkExpiredToken(token: String, completion: @escaping (Result<ExpiredToken, Error>) -> Void) -> NetworkRequest {
+        
+        NetworkRequest.buildRequest(method: .get,
+                             header: Header.GETHeader(accessToken: token).buildHeader(),
+                             baseURL: SpotifyURL.APICallBase.rawValue,
+                             path: EndingPath.userInfo.buildPath()) { (result) in
+                                
+                                result.decoding(ExpiredToken.self, completion: completion)
+        }
+    }
+    
+    static func refreshTokenToAccessToken(completion: @escaping (Result<Tokens, Error>) -> Void) -> NetworkRequest? {
         
         guard let refreshToken = UserDefaults.standard.string(forKey: "refresh_token") else {return nil}
         
         return NetworkRequest.buildRequest(method: .post,
-                                           header: Header.POSTHeader.buildHeader(),
-                                           baseURL: SpotifyURL.authBaseURL.rawValue,
-                                           path: EndingPath.token.buildPath(),
-                                           params: Parameters.buildParameters(.tokenRefreshCode(refreshToken: refreshToken))()) { result in
-            result.decoding(Tokens.self, completion: completion)
+                                    header: Header.POSTHeader.buildHeader(),
+                                    baseURL: SpotifyURL.authBaseURL.rawValue,
+                                    path: EndingPath.token.buildPath(),
+                                    params: Parameters.buildParameters(.tokenRefreshCode(refreshToken: refreshToken))()) { result in // the data is passed on to here!
+                                        // makeing decoding call
+                                        result.decoding(Tokens.self, completion: completion)
         }
         
     }
     
-    static func verifyExpiredToken(token: String, completion: @escaping (Result<ExpiredToken, Error>) -> Void) -> NetworkRequest {
+    static func getUserTopTracks(token: String, completions: @escaping (Result<UserTopSongs, Error>) -> Void) -> NetworkRequest {
         
-        NetworkRequest.buildRequest(method: .get,
+        let apiClient = APIClient(configuration: URLSessionConfiguration.default)
+        
+        apiClient.call(request: .checkExpiredToken(token: token, completion: { (expiredToken) in
+            switch expiredToken {
+            case .failure(_):
+                print("token still valid")
+            case .success(_):
+                print("token expired")
+                apiClient.call(request: refreshTokenToAccessToken(completion: { (refreshToken) in
+                    switch refreshToken {
+                    case .failure(_):
+                        print("no refresh token returned")
+                    case .success(let refresh):
+                        UserDefaults.standard.set(refresh.accessToken, forKey: "token")
+                        apiClient.call(request: .getUserTopTracks(token: refresh.accessToken, completions: completions))
+                    }
+                })!)
+            }
+        }))
+        
+        return NetworkRequest.buildRequest(method: .get,
                                     header: Header.GETHeader(accessToken: token).buildHeader(),
                                     baseURL: SpotifyURL.APICallBase.rawValue,
-                                    path: EndingPath.userInfo.buildPath()) { (result) in
-            
-            result.decoding(ExpiredToken.self, completion: completion)
+                                    path: EndingPath.myTop(type: .tracks).buildPath(), params: Parameters.durationOfTime(range: "long_term").buildParameters()) {
+                                        (result) in
+                                        
+                                        result.decoding(UserTopSongs.self, completion: completions)
+                                        
         }
+        
     }
     
-    static func getFavoriteUserArtists(token: String, completions: @escaping (Result<UserFavoriteArtists, Error>) -> Void) -> NetworkRequest {
+    static func getUserTopArtists(token: String, completions: @escaping (Result<NewReleases, Error>) -> Void) -> NetworkRequest {
         let apiClient = APIClient(configuration: URLSessionConfiguration.default)
         
-        apiClient.call(request: .verifyExpiredToken(token: token, completion: { (expiredToken) in
+        apiClient.call(request: .checkExpiredToken(token: token, completion: { (expiredToken) in
             switch expiredToken {
             case .failure(_):
                 print("token still valid")
             case .success(_):
                 print("token expired")
-                apiClient.call(request: refreshAccessToken(completion: { (refreshToken) in
+                apiClient.call(request: refreshTokenToAccessToken(completion: { (refreshToken) in
                     switch refreshToken {
                     case .failure(_):
                         print("no refresh token returned")
-                    case .success(let refresh):
-                        //print(refresh.accessToken)
-                        UserDefaults.standard.set(refresh.accessToken, forKey: "token")
-                        apiClient.call(request: .getFavoriteUserArtists(token: refresh.accessToken, completions: completions))
-                    //                        print("Call",SpotifyURL.APICallBase.rawValue)
-                    //                        print("END",EndingPath.userFavoriteArtists(type: .artists).buildPath())
-                    
-                    }
-                })!)
-            }
-        }))
-        
-        let urlString = "https://api.spotify.com/v1/me/top/artists"
-        let session = URLSession.shared
-        let url = NSURL(string: urlString)!
-        let request = NSMutableURLRequest(url: url as URL)
-        request.httpMethod = "GET"
-        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        request.setValue("application/json", forHTTPHeaderField: "Accept")
-        
-        
-        session.dataTask(with: request as URLRequest){ data, response, error in
-            
-            if let responseData = data
-            {
-                do{
-                    let json = try JSONSerialization.jsonObject(with: responseData, options: JSONSerialization.ReadingOptions.allowFragments)
-                    print(json)
-                }catch{
-                    print("Could not serialize")
-                }
-            }
-            
-        }.resume()
-        
-        
-        return NetworkRequest.buildRequest(method: .get,
-                                           header: Header.GETHeader(accessToken: token).buildHeader(),
-                                           baseURL: SpotifyURL.APICallBase.rawValue,
-                                           path: EndingPath.userFavoriteArtists(type: .artists).buildPath(),
-                                           params:Parameters.durationOfTime(range:"time_range").buildParameters()) { (result) in
-            result.decoding(UserFavoriteArtists.self, completion: completions)
-            
-        }
-        
-    }
-    
-    static func getFavoriteUserSongs(ids: [String], token: String, completions: @escaping (Result<ArtistTopSongs, Error>) -> Void) -> NetworkRequest {
-        
-        let apiClient = APIClient(configuration: URLSessionConfiguration.default)
-        
-        apiClient.call(request: .verifyExpiredToken(token: token, completion: { (expiredToken) in
-            switch expiredToken {
-            case .failure(_):
-                print("token is valid")
-            case .success(_):
-                print("token expired")
-                apiClient.call(request: refreshAccessToken(completion: { (refreshToken) in
-                    switch refreshToken {
-                    case .failure(_):
-                        print("no refresh token returned")
-                    case .success(let refresh):
-                        UserDefaults.standard.set(refresh.accessToken, forKey: "token")
-                        apiClient.call(request: .getFavoriteUserSongs(ids: ids, token: refresh.accessToken, completions: completions))
-                    }
-                })!)
-            }
-        }))
-        
-        return NetworkRequest.buildRequest(method: .get,
-                                           header: Header.GETHeader(accessToken: token).buildHeader(),
-                                           baseURL: SpotifyURL.APICallBase.rawValue,
-                                           path: EndingPath.tracks(ids: ids).buildPath(), params: Parameters.durationOfTime(range: "time_range").buildParameters()) {
-            (result) in
-            
-            result.decoding(ArtistTopSongs.self, completion: completions)
-            
-        }
-        
-    }
-    
-    static func getArtistPlaylist(token: String, playlistId: String, completions: @escaping (Result<Playlist, Error>) -> Void) -> NetworkRequest {
-        
-        let apiClient = APIClient(configuration: URLSessionConfiguration.default)
-        
-        apiClient.call(request: .verifyExpiredToken(token: token, completion: { (expiredToken) in
-            switch expiredToken {
-            case .failure(_):
-                print("token still valid")
-            case .success(_):
-                print("token expired")
-                apiClient.call(request: refreshAccessToken(completion: { (refreshToken) in
-                    switch refreshToken {
-                    case .failure(_):
-                        print("refresh token not found")
                     case .success(let refresh):
                         print(refresh.accessToken)
                         UserDefaults.standard.set(refresh.accessToken, forKey: "token")
-                        apiClient.call(request: .getArtistPlaylist(token: refresh.accessToken, playlistId: playlistId, completions: completions))
+                        apiClient.call(request: .getUserTopArtists(token: refresh.accessToken, completions: completions))
                     }
                 })!)
             }
         }))
         
         return NetworkRequest.buildRequest(method: .get,
-                                           header: Header.GETHeader(accessToken: token).buildHeader(),
-                                           baseURL: SpotifyURL.APICallBase.rawValue,
-                                           path: EndingPath.playlist(id: playlistId).buildPath()) { (result) in
-            
-            result.decoding(Playlist.self, completion: completions)
-            
+                                    header: Header.GETHeader(accessToken: token).buildHeader(),
+                                    baseURL: SpotifyURL.APICallBase.rawValue,
+                                    path: EndingPath.myTop(type: .artists).buildPath(),
+                                    params: Parameters.durationOfTime(range: "long_term").buildParameters()) { (result) in
+                                        
+                                        result.decoding(NewReleases.self, completion: completions)
+                                        
         }
         
     }
     
-    static func artistBestSongs(id: String, token: String, completion: @escaping(Result<ArtistTopSongs, Error>) -> Void) -> NetworkRequest {
+    
+    static func getPlaylist(token: String, playlistId: String, completions: @escaping (Result<Playlist, Error>) -> Void) -> NetworkRequest {
+
         let apiClient = APIClient(configuration: URLSessionConfiguration.default)
-        
-        apiClient.call(request: .verifyExpiredToken(token: token, completion: { (expiredToken) in
+
+        apiClient.call(request: .checkExpiredToken(token: token, completion: { (expiredToken) in
             switch expiredToken {
             case .failure(_):
                 print("token still valid")
             case .success(_):
                 print("token expired")
-                apiClient.call(request: refreshAccessToken(completion: { (refreshToken) in
+                apiClient.call(request: refreshTokenToAccessToken(completion: { (refreshToken) in
                     switch refreshToken {
                     case .failure(_):
-                        print("refresh token not found")
+                        print("no refresh token returned")
                     case .success(let refresh):
+                        print(refresh.accessToken)
                         UserDefaults.standard.set(refresh.accessToken, forKey: "token")
-                        apiClient.call(request: .artistBestSongs(id: id, token: refresh.accessToken, completion: completion))
+                        apiClient.call(request: .getPlaylist(token: refresh.accessToken, playlistId: playlistId, completions: completions))
                     }
                 })!)
             }
         }))
-        
+
         return NetworkRequest.buildRequest(method: .get,
-                                           header: Header.GETHeader(accessToken: token).buildHeader(),
-                                           baseURL: SpotifyURL.APICallBase.rawValue,
-                                           path: EndingPath.artistTopTracks(artistId: id, country: .US).buildPath()) { result in
+                                    header: Header.GETHeader(accessToken: token).buildHeader(),
+                                    baseURL: SpotifyURL.APICallBase.rawValue,
+                                    path: EndingPath.playlist(id: playlistId).buildPath()) { (result) in
+
+                                        result.decoding(Playlist.self, completion: completions)
+
+        }
+
+    }
+    
+    static func getUserFavoriteTracks(ids: [String], token: String, completion: @escaping(Result<ArtistTopSongs, Error>) -> Void) -> NetworkRequest {
+        let apiClient = APIClient(configuration: URLSessionConfiguration.default)
+        
+                apiClient.call(request: .checkExpiredToken(token: token, completion: { (expiredToken) in
+                    switch expiredToken {
+                    case .failure(_):
+                        print("token still valid")
+                    case .success(_):
+                        print("token expired")
+                        apiClient.call(request: refreshTokenToAccessToken(completion: { (refreshToken) in
+                            switch refreshToken {
+                            case .failure(_):
+                                print("no refresh token returned")
+                            case .success(let refresh):
+                                UserDefaults.standard.set(refresh.accessToken, forKey: "token")
+                                apiClient.call(request: .getUserFavoriteTracks(ids: ids, token: refresh.accessToken, completion: completion))
+                            }
+                        })!)
+                    }
+                }))
+        
+        return NetworkRequest.buildRequest(method: .get, header: Header.GETHeader(accessToken: token).buildHeader(), baseURL: SpotifyBaseURL.APICallBase.rawValue, path: EndingPath.tracks(ids: ids).buildPath()) { result in
             result.decoding(ArtistTopSongs.self, completion: completion)
         }
         
     }
     
-    static func getUserInfo(token: String, completion: @escaping (Result<UserModel, Error>) -> Void) -> NetworkRequest {
+    static func getArtistTopTracks(id: String, token: String, completions: @escaping (Result<ArtistTopSongs, Error>) -> Void) -> NetworkRequest {
         
-        NetworkRequest.buildRequest(method: .get,
+                let apiClient = APIClient(configuration: URLSessionConfiguration.default)
+        
+                apiClient.call(request: .checkExpiredToken(token: token, completion: { (expiredToken) in
+                    switch expiredToken {
+                    case .failure(_):
+                        print("token still valid")
+                    case .success(_):
+                        print("token expired")
+                        apiClient.call(request: refreshTokenToAccessToken(completion: { (refreshToken) in
+                            switch refreshToken {
+                            case .failure(_):
+                                print("no refresh token returned")
+                            case .success(let refresh):
+                                UserDefaults.standard.set(refresh.accessToken, forKey: "token")
+                                apiClient.call(request: .getArtistTopTracks(id: id, token: refresh.accessToken, completions: completions))
+                            }
+                        })!)
+                    }
+                }))
+        
+        return NetworkRequest.buildRequest(method: .get,
                                     header: Header.GETHeader(accessToken: token).buildHeader(),
-                                    baseURL: SpotifyURL.APICallBase.rawValue,
-                                    path: EndingPath.userInfo.buildPath()) { result in
-            
-            result.decoding(UserModel.self, completion: completion)
+                                    baseURL: SpotifyBaseURL.APICallBase.rawValue,
+                                    path: EndingPath.artistTopTracks(artistId: id, country: .US).buildPath()) { (result) in
+                                        
+                                        result.decoding(ArtistTopSongs.self, completion: completions)
         }
     }
     
-    static func search(token: String, q: String, type: SpotifyCaseTypes, completion: @escaping (Any) -> Void) -> NetworkRequest {
-        NetworkRequest.buildRequest(method: .get,
-                                    header: Header.GETHeader(accessToken: token).buildHeader(),
-                                    baseURL: SpotifyURL.APICallBase.rawValue,
-                                    path: EndingPath.search(q: q, type: type).buildPath()) { (result) in
-            
-            switch type {
-            case .artist:
-                result.decoding(SearchArtists.self, completion: completion)
-            case .track:
-                result.decoding(SearchSongs.self, completion: completion)
-            default:
-                print("unable to find search")
-            }
-        }
+    static func getUserInfo(token: String, completion: @escaping (Result<UserModel, Error>) -> Void) -> NetworkRequest {
         
+        NetworkRequest.buildRequest(method: .get,
+                             header: Header.GETHeader(accessToken: token).buildHeader(),
+                             baseURL: SpotifyURL.APICallBase.rawValue,
+                             path: EndingPath.userInfo.buildPath()) { result in
+                                
+                                result.decoding(UserModel.self, completion: completion)
+        }
     }
     
 }
 
+
+
 public extension Result where Success == Data, Failure == Error {
     
-    func decoding<M: JSONModel>(_ model: M.Type, completion: @escaping (Result<M, Error>) -> Void) {
+    // make a decoding function with generic input
+    func decoding<Model: JSONModel>(_ model: Model.Type, completion: @escaping (Result<Model, Error>) -> Void) {
         
         DispatchQueue.global().async {
-            let result = self.flatMap { data -> Result<M, Error> in
+            // decodes the data using flatMap
+            let result = self.flatMap { data -> Result<Model, Error> in
                 do {
-                    let decoder = M.decoder
-                    let model = try decoder.decode(M.self, from: data)
+                    let decoder = Model.decoder
+                    let model = try decoder.decode(Model.self, from: data)
                     return .success(model)
                 } catch {
                     return .failure(error)
                 }
             }
-            
             DispatchQueue.main.async {
+                // pass parsed data to completion
                 completion(result)
             }
         }
     }
 }
-
 
