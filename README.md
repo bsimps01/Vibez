@@ -1,10 +1,11 @@
 # Vibez
 
----
 Programming Language: ![](https://img.shields.io/badge/Swift-FA7343?style=for-the-badge&logo=swift&logoColor=white)
 ---
 Used with the power of the API from ![](https://img.shields.io/badge/Spotify-1ED760?&style=for-the-badge&logo=spotify&logoColor=white)
 this app was created to bring all of your music to your own listening needs. To get started follow the instructions below.
+
+---
 
 ### To use the app correctly you must have the following:
 - *A registed Spotify Account*
