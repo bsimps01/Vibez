@@ -389,6 +389,24 @@ extension NetworkRequest {
         }
     }
     
+    static func search(token: String, q: String, type: SpotifyCaseTypes, completion: @escaping (Any) -> Void) -> NetworkRequest {
+        NetworkRequest.buildRequest(method: .get,
+                             header: Header.GETHeader(accessToken: token).buildHeader(),
+                             baseURL: SpotifyBaseURL.APICallBase.rawValue,
+                             path: EndingPath.search(q: q, type: type).buildPath()) { (result) in
+                                
+                                switch type {
+                                case .artist:
+                                    result.decoding(SearchArtists.self, completion: completion)
+                                case .track:
+                                    result.decoding(SearchTracks.self, completion: completion)
+                                default:
+                                    print("this search type not implemented yet")
+                                }
+        }
+  
+    }
+    
 }
 
 

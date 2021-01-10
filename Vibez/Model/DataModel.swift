@@ -113,4 +113,20 @@ struct ErrorMessage: JSONModel {
     let message: String?
 }
 
+/// Search Criteria
 
+struct SearchTracks: JSONModel {
+    let tracks: Tracks
+}
+
+struct Tracks: JSONModel {
+    let items: [ArtistSong]
+}
+
+struct SearchArtists: JSONModel {
+    let artists: Artists
+}
+
+struct Artists: JSONModel {
+    let items: [ArtistItem]
+}
