@@ -15,6 +15,7 @@ class HomeViewController: UIViewController {
     private var vibezSoundz = [VibezSoundz]()
     private var top50TableView = UITableView()
     let logoImageView = UIImageView()
+    private let searchController = UISearchController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +32,8 @@ class HomeViewController: UIViewController {
         
         navigationController?.navigationBar.barStyle = .default
         navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        
+        configureSearchBar()
     }
     
     @objc func logOffButtonTapped() {
@@ -107,6 +110,35 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         cell.setSong(song: vibezSoundz[indexPath.row], starButtonHidden: false)
         return cell
     }
+}
+
+extension HomeViewController: UISearchBarDelegate {
     
+    private func configureSearchBar(){
+        
+        self.navigationItem.searchController = searchController
+        definesPresentationContext = true
+        searchController.searchBar.placeholder = "Search"
+        searchController.searchBar.delegate = self
+        searchController.searchBar.autocapitalizationType = .none
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.scopeButtonTitles = ["Artists", "Tracks"]
+        
+    }
     
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchController.resignFirstResponder()
+        let searchViewController = SearchViewController()
+        searchViewController.searchDescription = searchBar.text
+        switch searchController.searchBar.selectedScopeButtonIndex {
+        case 0:
+            searchViewController.searchCaseType = .artist
+        case 1:
+            searchViewController.searchCaseType = .track
+        default:
+            searchViewController.searchCaseType = .artist
+        }
+        searchViewController.title = searchBar.text?.capitalized
+        self.navigationController?.pushViewController(searchViewController, animated: true)
+    }
 }

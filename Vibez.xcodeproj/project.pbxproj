@@ -24,6 +24,7 @@
 		1B2230F2255E11C300AB7B3E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1B2230F0255E11C300AB7B3E /* LaunchScreen.storyboard */; };
 		1B2230FD255E11C400AB7B3E /* VibezTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2230FC255E11C400AB7B3E /* VibezTests.swift */; };
 		1B223108255E11C400AB7B3E /* VibezUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B223107255E11C400AB7B3E /* VibezUITests.swift */; };
+		1B9C9AB225ABC8F2006622CE /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B9C9AB125ABC8F2006622CE /* SearchViewController.swift */; };
 		1B9DDC31257AFD1600D8A948 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B9DDC30257AFD1500D8A948 /* Constants.swift */; };
 		1B9DDC3C257B00EB00D8A948 /* SpotifyK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B9DDC3B257B00EB00D8A948 /* SpotifyK.swift */; };
 		1B9DDC45257B095400D8A948 /* VibezSoundz.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B9DDC44257B095400D8A948 /* VibezSoundz.swift */; };
@@ -77,6 +78,7 @@
 		1B223103255E11C400AB7B3E /* VibezUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VibezUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B223107255E11C400AB7B3E /* VibezUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VibezUITests.swift; sourceTree = "<group>"; };
 		1B223109255E11C400AB7B3E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1B9C9AB125ABC8F2006622CE /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		1B9DDC30257AFD1500D8A948 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		1B9DDC3B257B00EB00D8A948 /* SpotifyK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyK.swift; sourceTree = "<group>"; };
 		1B9DDC44257B095400D8A948 /* VibezSoundz.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VibezSoundz.swift; sourceTree = "<group>"; };
@@ -207,6 +209,7 @@
 			children = (
 				1B9DDCAF257CB44800D8A948 /* LoginViewController.swift */,
 				1B19473C2580A41A003CE4C0 /* HomeViewController.swift */,
+				1B9C9AB125ABC8F2006622CE /* SearchViewController.swift */,
 				1B194786258254DA003CE4C0 /* FavoriteArtistsViewController.swift */,
 				1B19476E2581D789003CE4C0 /* TopArtistSongsViewController.swift */,
 				1B1947532580C71C003CE4C0 /* FavoritesViewController.swift */,
@@ -364,6 +367,7 @@
 				1B2230E3255E11BF00AB7B3E /* AppDelegate.swift in Sources */,
 				1B2230ED255E11C000AB7B3E /* Vibez.xcdatamodeld in Sources */,
 				1B1947542580C71C003CE4C0 /* FavoritesViewController.swift in Sources */,
+				1B9C9AB225ABC8F2006622CE /* SearchViewController.swift in Sources */,
 				1B9DDC57257C6AF600D8A948 /* JSONModel.swift in Sources */,
 				1B9DDC45257B095400D8A948 /* VibezSoundz.swift in Sources */,
 				1B9DDCAB257C874300D8A948 /* SpotifyCaseTypes.swift in Sources */,
