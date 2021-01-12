@@ -14,10 +14,12 @@ class FavoritesViewController: UIViewController {
     private var artists = [ArtistItem]()
     private let apiClient = APIClient(configuration: URLSessionConfiguration.default)
     private var vibezSoundz = [VibezSoundz]()
+    private let searchController = UISearchController()
     
     override func viewDidLoad(){
         super.viewDidLoad()
         displayNavigation()
+        configureSearchBar()
     
     }
     
@@ -109,4 +111,35 @@ extension FavoritesViewController: UITableViewDelegate, UITableViewDataSource {
         return 100
     }
     
+}
+
+extension FavoritesViewController: UISearchBarDelegate {
+    
+    private func configureSearchBar(){
+        
+        self.navigationItem.searchController = searchController
+        definesPresentationContext = true
+        searchController.searchBar.placeholder = "Search"
+        searchController.searchBar.delegate = self
+        searchController.searchBar.autocapitalizationType = .none
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.scopeButtonTitles = ["Artists", "Songs"]
+        
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchController.resignFirstResponder()
+        let searchViewController = SearchViewController()
+        searchViewController.searchDescription = searchBar.text
+        switch searchController.searchBar.selectedScopeButtonIndex {
+        case 0:
+            searchViewController.searchCaseType = .artist
+        case 1:
+            searchViewController.searchCaseType = .track
+        default:
+            searchViewController.searchCaseType = .artist
+        }
+        searchViewController.title = searchBar.text?.capitalized
+        self.navigationController?.pushViewController(searchViewController, animated: true)
+    }
 }

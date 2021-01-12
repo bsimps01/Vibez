@@ -13,6 +13,7 @@ class FavoriteArtistsViewController: UIViewController {
     private let favoriteArtistsTableView = UITableView()
     private var artists = [ArtistItem]()
     private let apiClient = APIClient(configuration: URLSessionConfiguration.default)
+    private let searchController = UISearchController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,7 +31,7 @@ class FavoriteArtistsViewController: UIViewController {
         
         navigationController?.navigationBar.barStyle = .default
         navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        
+        configureSearchBar()
     }
 
     
@@ -100,4 +101,35 @@ extension FavoriteArtistsViewController: UITableViewDelegate, UITableViewDataSou
     }
     
     
+}
+
+extension FavoriteArtistsViewController: UISearchBarDelegate {
+    
+    private func configureSearchBar(){
+        
+        self.navigationItem.searchController = searchController
+        definesPresentationContext = true
+        searchController.searchBar.placeholder = "Search"
+        searchController.searchBar.delegate = self
+        searchController.searchBar.autocapitalizationType = .none
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.scopeButtonTitles = ["Artists", "Songs"]
+        
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchController.resignFirstResponder()
+        let searchViewController = SearchViewController()
+        searchViewController.searchDescription = searchBar.text
+        switch searchController.searchBar.selectedScopeButtonIndex {
+        case 0:
+            searchViewController.searchCaseType = .artist
+        case 1:
+            searchViewController.searchCaseType = .track
+        default:
+            searchViewController.searchCaseType = .artist
+        }
+        searchViewController.title = searchBar.text?.capitalized
+        self.navigationController?.pushViewController(searchViewController, animated: true)
+    }
 }

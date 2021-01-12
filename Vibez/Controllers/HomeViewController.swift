@@ -122,7 +122,7 @@ extension HomeViewController: UISearchBarDelegate {
         searchController.searchBar.delegate = self
         searchController.searchBar.autocapitalizationType = .none
         searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.scopeButtonTitles = ["Artists", "Tracks"]
+        searchController.searchBar.scopeButtonTitles = ["Artists", "Songs"]
         
     }
     
